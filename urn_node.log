@@ -1,0 +1,114 @@
+2026-03-21 12:24:31 [INFO] Wallet created: c3be57ddf267d9b01b2495d5d9403bc3f08147e6
+2026-03-21 12:24:31 [WARNING] Chain missing/corrupted — starting fresh
+2026-03-21 12:24:31 [WARNING] UTXO missing — will rebuild
+2026-03-21 12:24:31 [INFO] Rebuilding UTXO from chain...
+2026-03-21 12:24:31 [INFO] UTXO rebuilt — 0 entries
+2026-03-21 12:24:31 [INFO] P2P server listening on :5000
+2026-03-21 12:24:31 [INFO] REST API listening on :8080
+2026-03-21 12:24:58 [INFO] Block 1 mined | time=7.76s nonce=373312 reward=32.00000000
+2026-03-21 12:25:23 [INFO] Block 2 mined | time=16.1s nonce=781214 reward=32.00000000
+2026-03-21 12:27:07 [INFO] Wallet loaded: c3be57ddf267d9b01b2495d5d9403bc3f08147e6
+2026-03-21 12:27:07 [INFO] Chain loaded — height 3
+2026-03-21 12:27:07 [INFO] UTXO loaded — 0 entries
+2026-03-21 12:27:07 [INFO] Rebuilding UTXO from chain...
+2026-03-21 12:27:07 [INFO] UTXO rebuilt — 0 entries
+2026-03-21 12:27:07 [INFO] P2P server listening on :5000
+2026-03-21 12:27:07 [INFO] REST API listening on :8080
+2026-03-21 12:27:43 [INFO] Wallet created: 4a5c850444ccb4ea5a2ed7b3a0ecd243db667d1f
+2026-03-21 12:27:43 [WARNING] Chain missing/corrupted — starting fresh
+2026-03-21 12:27:43 [INFO] UTXO loaded — 0 entries
+2026-03-21 12:27:43 [INFO] Rebuilding UTXO from chain...
+2026-03-21 12:27:43 [INFO] UTXO rebuilt — 0 entries
+2026-03-21 12:27:43 [INFO] P2P server listening on :5000
+2026-03-21 12:27:43 [INFO] REST API listening on :8080
+2026-03-21 12:28:33 [INFO] Block 1 mined | time=48.16s nonce=2295560 reward=32.00000000
+2026-03-21 12:29:50 [INFO] Wallet loaded: 4a5c850444ccb4ea5a2ed7b3a0ecd243db667d1f
+2026-03-21 12:29:50 [WARNING] Chain missing/corrupted — starting fresh
+2026-03-21 12:29:50 [WARNING] UTXO missing — will rebuild
+2026-03-21 12:29:50 [INFO] Rebuilding UTXO from chain...
+2026-03-21 12:29:50 [INFO] UTXO rebuilt — 0 entries
+2026-03-21 12:29:50 [INFO] P2P server listening on :5000
+2026-03-21 12:29:50 [INFO] REST API listening on :8080
+2026-03-21 12:30:32 [INFO] Block 1 mined | time=34.72s nonce=1697325 reward=32.00000000
+2026-03-21 12:30:43 [INFO] Peer connected: 111
+2026-03-21 12:30:44 [DEBUG] p2p_send 111:5000 error: [Errno 7] No address associated with hostname
+2026-03-21 12:30:44 [DEBUG] p2p_send 111:5000 error: [Errno 7] No address associated with hostname
+2026-03-21 12:30:44 [DEBUG] p2p_send 111:5000 error: [Errno 7] No address associated with hostname
+2026-03-21 12:30:55 [INFO] Wallet backed up
+2026-03-21 12:32:31 [INFO] Block 2 mined | time=34.24s nonce=349173 reward=32.00000000
+[2026-03-21 13:27:18] INFO  Loaded 1 peers
+[2026-03-21 13:27:18] DEBUG  UTXO loaded: 2 entries
+[2026-03-21 13:27:18] INFO  UTXO rebuilt: 2 entries
+[2026-03-21 13:27:18] INFO  P2P listening on port 5000
+[2026-03-21 13:27:18] INFO  REST API on http://localhost:8080
+[2026-03-21 13:27:24] WARNING  Cannot mine: chain invalid
+[2026-03-21 13:29:33] INFO  Loaded 1 peers
+[2026-03-21 13:29:33] DEBUG  UTXO loaded: 2 entries
+[2026-03-21 13:29:33] INFO  UTXO rebuilt: 2 entries
+[2026-03-21 13:29:33] INFO  P2P listening on port 5000
+[2026-03-21 13:29:33] INFO  REST API on http://localhost:8080
+[2026-03-21 13:29:35] WARNING  Cannot mine: chain invalid
+[2026-03-21 13:30:28] WARNING  Chain file missing - starting fresh
+[2026-03-21 13:30:28] INFO  Loaded 1 peers
+[2026-03-21 13:30:28] WARNING  UTXO missing - will rebuild
+[2026-03-21 13:30:28] INFO  UTXO rebuilt: 0 entries
+[2026-03-21 13:30:28] INFO  P2P listening on port 5000
+[2026-03-21 13:30:28] INFO  REST API on http://localhost:8080
+[2026-03-21 13:30:32] INFO  Mining block 1 difficulty=5...
+[2026-03-21 13:30:33] INFO  Block 1 mined in 1.19s nonce=52429 reward=32.00000000 URN
+[2026-03-21 13:30:35] INFO  Mining block 2 difficulty=5...
+[2026-03-21 13:32:24] INFO  Block 2 mined in 108.53s nonce=4671363 reward=32.00000000 URN
+[2026-03-21 13:33:05] INFO  Auto-miner started
+[2026-03-21 13:33:05] INFO  Mining block 3 difficulty=5...
+[2026-03-21 13:33:10] INFO  Block 3 mined in 4.55s nonce=202371 reward=32.00000000 URN
+[2026-03-21 13:33:15] INFO  Mining block 4 difficulty=5...
+[2026-03-21 13:33:40] INFO  Block 4 mined in 24.94s nonce=1114579 reward=32.00000000 URN
+[2026-03-21 13:33:45] INFO  Mining block 5 difficulty=5...
+[2026-03-21 13:33:51] INFO  Block 5 mined in 6.22s nonce=273197 reward=32.00000000 URN
+[2026-03-21 13:33:56] INFO  Mining block 6 difficulty=5...
+[2026-03-21 13:48:12] INFO  Loaded 1 peers
+[2026-03-21 13:48:12] DEBUG  UTXO loaded: 5 entries
+[2026-03-21 13:48:12] INFO  UTXO rebuilt: 5 entries
+[2026-03-21 13:48:12] INFO  P2P listening on port 5000
+[2026-03-21 13:48:12] INFO  REST API on http://localhost:8080
+[2026-03-21 13:48:23] INFO  Auto-miner started
+[2026-03-21 13:48:23] INFO  Mining block 6 difficulty=5...
+[2026-03-21 13:48:37] INFO  Block 6 mined in 13.61s nonce=661390 reward=32.00000000 URN
+[2026-03-21 13:52:59] INFO  Loaded 1 peers
+[2026-03-21 13:52:59] DEBUG  UTXO loaded: 6 entries
+[2026-03-21 13:52:59] INFO  UTXO rebuilt: 6 entries
+[2026-03-21 13:52:59] INFO  P2P listening on port 5000
+[2026-03-21 13:52:59] INFO  REST API on http://localhost:8080
+[2026-03-21 13:53:06] INFO  Auto-miner started
+[2026-03-21 13:53:06] INFO  Mining block 7 difficulty=5...
+[2026-03-21 13:53:18] INFO  Block 7 mined in 12.4s nonce=605756 reward=32.00000000 URN
+[2026-03-21 13:53:23] INFO  Mining block 8 difficulty=5...
+[2026-03-21 13:54:05] INFO  Block 8 mined in 42.15s nonce=2059475 reward=32.00000000 URN
+[2026-03-21 13:54:10] INFO  Mining block 9 difficulty=5...
+[2026-03-21 13:55:31] INFO  Block 9 mined in 80.78s nonce=1116339 reward=32.00000000 URN
+[2026-03-21 13:55:31] INFO  Difficulty down to 4
+[2026-03-21 13:55:52] INFO  Auto-miner started
+[2026-03-21 13:55:52] INFO  Mining block 10 difficulty=4...
+[2026-03-21 13:55:53] INFO  Block 10 mined in 1.07s nonce=50536 reward=32.00000000 URN
+[2026-03-21 13:55:58] INFO  Mining block 11 difficulty=4...
+[2026-03-21 13:55:59] INFO  Block 11 mined in 1.43s nonce=66445 reward=32.00000000 URN
+[2026-03-21 13:56:04] INFO  Mining block 12 difficulty=4...
+[2026-03-21 13:56:54] INFO  Block 12 mined in 49.96s nonce=23518 reward=32.00000000 URN
+[2026-03-21 13:58:43] INFO  Loaded 1 peers
+[2026-03-21 13:58:43] DEBUG  UTXO loaded: 12 entries
+[2026-03-21 13:58:43] INFO  UTXO rebuilt: 12 entries
+[2026-03-21 13:58:43] INFO  P2P listening on port 5000
+[2026-03-21 13:58:43] INFO  REST API on http://localhost:8080
+[2026-03-21 13:58:46] INFO  Auto-miner started
+[2026-03-21 13:58:46] INFO  Mining block 13 difficulty=5...
+[2026-03-21 13:59:45] INFO  Block 13 mined in 59.26s nonce=2111091 reward=32.00000000 URN
+[2026-03-21 14:01:32] INFO  Mining block 14 difficulty=5...
+[2026-03-21 14:04:08] INFO  Loaded 1 peers
+[2026-03-21 14:04:08] DEBUG  UTXO loaded: 13 entries
+[2026-03-21 14:04:08] INFO  UTXO rebuilt: 13 entries
+[2026-03-21 14:04:08] INFO  P2P listening on port 5000
+[2026-03-21 14:04:08] INFO  REST API on http://localhost:8080
+[2026-03-21 14:04:24] INFO  Auto-miner started
+[2026-03-21 14:04:24] INFO  Mining block 14 difficulty=5...
+[2026-03-21 14:04:36] INFO  Block 14 mined in 12.32s nonce=582579 reward=32.00000000 URN
+[2026-03-21 14:05:30] INFO  Mining block 15 difficulty=5...

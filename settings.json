@@ -1,0 +1,34 @@
+{
+  "coin": {
+    "name": "Uranium",
+    "ticker": "URN",
+    "decimals": 100000000,
+    "max_supply": 15000000,
+    "initial_reward": 32,
+    "halving_interval": 50000,
+    "fee": 0.1
+  },
+  "mining": {
+    "difficulty": 5,
+    "target_block_time": 30,
+    "adjust_interval": 10,
+    "max_block_tx": 1000,
+    "coinbase_maturity": 0
+  },
+  "network": {
+    "p2p_port": 5000,
+    "api_port": 8080,
+    "max_peers": 50,
+    "max_mempool_tx": 5000,
+    "max_future_time": 120,
+    "bootstrap_nodes": []
+  },
+  "files": {
+    "wallet": "wallet.json",
+    "backup": "wallet_backup.json",
+    "chain": "chain.json",
+    "peers": "peers.json",
+    "utxo": "utxo.json",
+    "log": "urn_node.log"
+  }
+}
