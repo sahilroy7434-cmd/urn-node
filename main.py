@@ -93,6 +93,15 @@ def main():
         connect_peer(ip, data)
     for ip in BOOTSTRAP_NODES:
         connect_peer(ip, data)
+
+    # Sync on startup
+    if PEERS or BOOTSTRAP_NODES:
+        print("  Syncing chain from peers...")
+        import time
+        time.sleep(5)  # wait for chain to arrive
+        rebuild_utxo(data)
+        save_utxo()
+        print(f"  Sync complete! Height: {len(data['chain'])-1}")
     print(f"  Address : {wallet['address']}")
     print(f"  Balance : {get_balance(wallet['address']):.8f} URN")
     print(f"  Height  : {len(data['chain']) - 1}")
@@ -193,10 +202,19 @@ def main():
             print(f"  UTXO      : {len(UTXO)}")
             print(f"  Automine  : {state} pause={_automine_pause}s")
         elif cmd == "peers":
-            if not PEERS:
+            # Show from file + memory
+            known = set(PEERS)
+            try:
+                import json
+                with open("peers.json") as f:
+                    known.update(json.load(f))
+            except:
+                pass
+            if not known:
                 print("  No peers")
             else:
-                [print(f"  {p}") for p in PEERS]
+                for p in known:
+                    print(f"  • {p}")
         elif cmd == "connect":
             ip = input("  Peer IP: ").strip()
             connect_peer(ip, data)

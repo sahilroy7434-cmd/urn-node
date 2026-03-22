@@ -29,7 +29,11 @@ def _send(ip, obj):
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
-        s.connect((ip, P2P_PORT))
+        if ":" in ip:
+            host, port = ip.rsplit(":", 1)
+            s.connect((host, int(port)))
+        else:
+            s.connect((ip, P2P_PORT))
         send_json(s, obj)
         s.close()
     except:
@@ -59,13 +63,14 @@ def send_chain_to_peer(ip, data):
     _send(ip, {"type": "CHAIN", "data": data})
 
 def connect_peer(ip, data):
-    if ip and ip not in PEERS:
+    if ip:
         PEERS.add(ip)
         save_peers()
         log.info(f"Connected to peer: {ip}")
         _send(ip, {"type": "PEER", "data": ip})
+        # Request their chain on connect
+        _send(ip, {"type": "HELLO", "height": len(data["chain"])})
         send_chain_to_peer(ip, data)
-        send_hello(ip, len(data["chain"]))
 
 def start_p2p(data):
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

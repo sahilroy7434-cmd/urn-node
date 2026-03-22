@@ -112,3 +112,111 @@
 [2026-03-21 14:04:24] INFO  Mining block 14 difficulty=5...
 [2026-03-21 14:04:36] INFO  Block 14 mined in 12.32s nonce=582579 reward=32.00000000 URN
 [2026-03-21 14:05:30] INFO  Mining block 15 difficulty=5...
+[2026-03-21 16:46:10] INFO  Loaded 1 peers
+[2026-03-21 16:46:10] DEBUG  UTXO loaded: 14 entries
+[2026-03-21 16:46:10] INFO  UTXO rebuilt: 14 entries
+[2026-03-21 16:46:10] INFO  P2P listening on port 5000
+[2026-03-21 16:46:10] INFO  REST API on http://localhost:8080
+[2026-03-21 16:46:10] INFO  Connected to peer: bore.pub:37745
+[2026-03-21 16:46:22] INFO  Mining block 15 difficulty=5...
+[2026-03-21 16:46:43] INFO  Block 15 mined in 21.36s nonce=470019 reward=32.00000000 URN
+[2026-03-21 16:52:02] INFO  Loaded 2 peers
+[2026-03-21 16:52:02] DEBUG  UTXO loaded: 15 entries
+[2026-03-21 16:52:02] INFO  UTXO rebuilt: 15 entries
+[2026-03-21 16:52:02] INFO  P2P listening on port 5000
+[2026-03-21 16:52:02] INFO  REST API on http://localhost:8080
+[2026-03-21 17:24:06] INFO  Loaded 2 peers
+[2026-03-21 17:24:06] DEBUG  UTXO loaded: 15 entries
+[2026-03-21 17:24:06] INFO  UTXO rebuilt: 15 entries
+[2026-03-21 17:24:06] INFO  P2P listening on port 5000
+[2026-03-21 17:24:06] INFO  REST API on http://localhost:8080
+[2026-03-21 17:24:06] INFO  Connected to peer: bore.pub:14772
+[2026-03-21 17:24:13] INFO  Mining block 16 difficulty=5...
+[2026-03-21 17:25:32] INFO  Block 16 mined in 79.34s nonce=1950230 reward=32.00000000 URN
+[2026-03-21 17:28:25] INFO  Loaded 3 peers
+[2026-03-21 17:28:25] DEBUG  UTXO loaded: 16 entries
+[2026-03-21 17:28:25] INFO  UTXO rebuilt: 16 entries
+[2026-03-21 17:28:25] INFO  P2P listening on port 5000
+[2026-03-21 17:28:25] INFO  REST API on http://localhost:8080
+[2026-03-21 17:28:25] INFO  Connected to peer: bore.pub:14772
+[2026-03-21 17:53:28] INFO  Loaded 3 peers
+[2026-03-21 17:53:28] DEBUG  UTXO loaded: 16 entries
+[2026-03-21 17:53:28] INFO  UTXO rebuilt: 16 entries
+[2026-03-21 17:53:28] INFO  P2P listening on port 5000
+[2026-03-21 17:53:28] INFO  REST API on http://localhost:8080
+[2026-03-21 17:53:28] INFO  Connected to peer: bore.pub:55100
+[2026-03-21 18:02:53] INFO  Loaded 1 peers
+[2026-03-21 18:02:53] DEBUG  UTXO loaded: 16 entries
+[2026-03-21 18:02:53] INFO  UTXO rebuilt: 16 entries
+[2026-03-21 18:02:53] INFO  P2P listening on port 5000
+[2026-03-21 18:02:53] INFO  REST API on http://localhost:8080
+[2026-03-21 18:02:53] INFO  Connected to peer: bore.pub:4388
+[2026-03-21 18:05:52] INFO  Mining block 17 difficulty=5...
+[2026-03-21 18:06:39] INFO  Block 17 mined in 47.4s nonce=2247311 reward=32.00000000 URN
+[2026-03-21 18:08:49] INFO  Loaded 1 peers
+[2026-03-21 18:08:49] DEBUG  UTXO loaded: 17 entries
+[2026-03-21 18:08:49] INFO  UTXO rebuilt: 17 entries
+[2026-03-21 18:08:49] INFO  P2P listening on port 5000
+[2026-03-21 18:08:49] INFO  REST API on http://localhost:8080
+[2026-03-21 18:08:49] INFO  Connected to peer: bore.pub:4388
+[2026-03-21 18:11:01] INFO  Mining block 18 difficulty=5...
+[2026-03-21 18:11:12] INFO  Block 18 mined in 10.28s nonce=450453 reward=32.00000000 URN
+[2026-03-21 18:19:25] INFO  Wallet created: 91a16b28d6666e6381018b876801f59d86cc0a29
+[2026-03-21 18:19:25] WARNING  Chain file missing - starting fresh
+[2026-03-21 18:19:25] INFO  Loaded 1 peers
+[2026-03-21 18:19:25] DEBUG  UTXO loaded: 18 entries
+[2026-03-21 18:19:25] INFO  UTXO rebuilt: 0 entries
+[2026-03-21 18:19:25] INFO  P2P listening on port 5000
+[2026-03-21 18:19:25] INFO  REST API on http://localhost:8080
+[2026-03-21 18:19:25] INFO  Connected to peer: bore.pub:4388
+[2026-03-21 18:19:39] INFO  Mining block 1 difficulty=5...
+[2026-03-21 18:20:49] INFO  Block 1 mined in 70.08s nonce=2724238 reward=32.00000000 URN
+[2026-03-21 18:21:34] INFO  Mining block 2 difficulty=5...
+[2026-03-21 18:21:59] INFO  Block 2 mined in 24.79s nonce=883287 reward=32.00000000 URN
+[2026-03-21 18:22:48] INFO  Mining block 3 difficulty=5...
+[2026-03-21 18:22:54] INFO  Block 3 mined in 6.35s nonce=227816 reward=32.00000000 URN
+[2026-03-21 18:47:15] INFO  Loaded 2 peers
+[2026-03-21 18:47:15] DEBUG  UTXO loaded: 3 entries
+[2026-03-21 18:47:15] INFO  UTXO rebuilt: 3 entries
+[2026-03-21 18:47:15] INFO  P2P listening on port 5000
+[2026-03-21 18:47:15] INFO  REST API on http://localhost:8080
+[2026-03-21 18:47:15] INFO  Connected to peer: bore.pub:4388
+[2026-03-21 18:47:26] INFO  Mining block 4 difficulty=5...
+[2026-03-21 18:47:47] INFO  Block 4 mined in 20.48s nonce=830035 reward=32.00000000 URN
+[2026-03-21 18:52:40] WARNING  Chain file missing - starting fresh
+[2026-03-21 18:52:40] INFO  Loaded 2 peers
+[2026-03-21 18:52:40] DEBUG  UTXO loaded: 4 entries
+[2026-03-21 18:52:40] INFO  UTXO rebuilt: 0 entries
+[2026-03-21 18:52:40] INFO  P2P listening on port 5000
+[2026-03-21 18:52:40] INFO  REST API on http://localhost:8080
+[2026-03-21 18:52:40] INFO  Connected to peer: bore.pub:41804
+[2026-03-21 18:53:30] INFO  Connected to peer: 10.22.84.173
+[2026-03-21 18:53:37] INFO  Mining block 1 difficulty=5...
+[2026-03-21 18:53:46] INFO  Block 1 mined in 9.61s nonce=308598 reward=32.00000000 URN
+[2026-03-21 18:56:11] INFO  Block 2 accepted from 10.22.84.173
+[2026-03-21 18:56:26] INFO  Mining block 3 difficulty=5...
+[2026-03-21 18:56:33] INFO  Block 3 mined in 7.39s nonce=243560 reward=32.00000000 URN
+[2026-03-21 19:03:43] WARNING  Chain file missing - starting fresh
+[2026-03-21 19:03:43] INFO  Loaded 5 peers
+[2026-03-21 19:03:43] WARNING  UTXO missing - will rebuild
+[2026-03-21 19:03:43] INFO  UTXO rebuilt: 0 entries
+[2026-03-21 19:03:43] INFO  P2P listening on port 5000
+[2026-03-21 19:03:43] INFO  REST API on http://localhost:8080
+[2026-03-21 19:03:43] INFO  Connected to peer: bore.pub:41804
+[2026-03-21 19:04:37] INFO  Connected to peer: 10.22.84.173
+[2026-03-21 19:05:59] INFO  Discovered peer: 192.0.0.4
+[2026-03-21 19:06:42] INFO  Block 1 accepted from 10.22.84.173
+[2026-03-21 19:07:05] INFO  Mining block 2 difficulty=5...
+[2026-03-21 19:07:30] INFO  Block 2 mined in 24.77s nonce=708629 reward=32.00000000 URN
+[2026-03-21 19:07:46] INFO  Mining block 3 difficulty=5...
+[2026-03-21 19:09:00] INFO  Block 3 mined in 74.31s nonce=2667728 reward=32.00000000 URN
+[2026-03-21 19:11:45] INFO  Mining block 4 difficulty=5...
+[2026-03-21 19:12:26] INFO  Block 4 mined in 41.47s nonce=1658988 reward=32.00000000 URN
+[2026-03-22 03:33:38] INFO  Loaded 7 peers
+[2026-03-22 03:33:38] DEBUG  UTXO loaded: 4 entries
+[2026-03-22 03:33:38] INFO  UTXO rebuilt: 4 entries
+[2026-03-22 03:33:38] INFO  P2P listening on port 5000
+[2026-03-22 03:33:38] INFO  REST API on http://localhost:8080
+[2026-03-22 03:33:38] INFO  Connected to peer: bore.pub:41804
+[2026-03-22 03:33:44] INFO  Mining block 5 difficulty=5...
+[2026-03-22 03:35:26] INFO  Block 5 mined in 101.56s nonce=4915150 reward=32.00000000 URN

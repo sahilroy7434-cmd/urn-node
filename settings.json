@@ -21,7 +21,7 @@
     "max_peers": 50,
     "max_mempool_tx": 5000,
     "max_future_time": 120,
-    "bootstrap_nodes": []
+    "bootstrap_nodes": ["bore.pub:41804"]
   },
   "files": {
     "wallet": "wallet.json",
