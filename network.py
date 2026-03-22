@@ -1,3 +1,7 @@
+# ============================
+# URN — network.py
+# ============================
+
 import json, socket, threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from config import P2P_PORT, API_PORT, PEER_FILE
@@ -9,6 +13,7 @@ from blockchain import (
     get_difficulty, chain_lock, UTXO, MAX_MEMPOOL_TX
 )
 
+# ---------------- PEER STATE ----------------
 PEERS   = set()
 syncing = False
 
@@ -18,25 +23,29 @@ def load_peers():
         with open(PEER_FILE) as f:
             PEERS = set(json.load(f))
         log.info(f"Loaded {len(PEERS)} peers")
-    except:
+    except Exception:
         PEERS = set()
 
 def save_peers():
     with open(PEER_FILE, "w") as f:
         json.dump(list(PEERS), f)
 
+# ---------------- SEND HELPERS ----------------
+
 def _send(ip, obj):
+    """Send a JSON message to a peer. Supports host:port format."""
     try:
+        if ":" in str(ip):
+            parts = str(ip).rsplit(":", 1)
+            host, port = parts[0], int(parts[1])
+        else:
+            host, port = ip, P2P_PORT
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
-        if ":" in ip:
-            host, port = ip.rsplit(":", 1)
-            s.connect((host, int(port)))
-        else:
-            s.connect((ip, P2P_PORT))
+        s.connect((host, port))
         send_json(s, obj)
         s.close()
-    except:
+    except Exception:
         pass
 
 def broadcast(obj, exclude=None):
@@ -62,15 +71,21 @@ def broadcast_mempool(pending):
 def send_chain_to_peer(ip, data):
     _send(ip, {"type": "CHAIN", "data": data})
 
+def request_chain_from_peer(ip, my_height):
+    """Ask a peer to send us their chain if they have more blocks."""
+    _send(ip, {"type": "HELLO", "height": my_height})
+
 def connect_peer(ip, data):
-    if ip:
+    if ip and ip not in PEERS:
         PEERS.add(ip)
         save_peers()
         log.info(f"Connected to peer: {ip}")
-        _send(ip, {"type": "PEER", "data": ip})
-        # Request their chain on connect
-        _send(ip, {"type": "HELLO", "height": len(data["chain"])})
-        send_chain_to_peer(ip, data)
+        # Send hello so peer knows our height
+        send_hello(ip, len(data["chain"]))
+        # Also send our chain so peer can sync if needed
+        _send(ip, {"type": "PEER", "data": str(ip)})
+
+# ---------------- P2P SERVER ----------------
 
 def start_p2p(data):
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -86,19 +101,31 @@ def start_p2p(data):
             if not raw:
                 return
             obj = json.loads(raw.decode())
-            t = obj.get("type")
+            t   = obj.get("type")
 
             if t == "HELLO":
-                peer_ip = addr[0]
+                peer_ip  = addr[0]
                 PEERS.add(peer_ip)
                 save_peers()
                 peer_h = obj.get("height", 0)
-                my_h = len(data["chain"])
+                my_h   = len(data["chain"])
+                log.debug(f"HELLO from {peer_ip} their_height={peer_h} my_height={my_h}")
+
                 if peer_h > my_h:
+                    # Peer has more blocks — request their chain
+                    log.info(f"Peer {peer_ip} has longer chain ({peer_h} > {my_h}) — requesting sync")
+                    _send(peer_ip, {"type": "GETCHAIN"})
+                elif my_h > peer_h:
+                    # We have more blocks — send our chain
+                    log.info(f"Sending our chain to {peer_ip} ({my_h} > {peer_h})")
                     send_chain_to_peer(peer_ip, data)
-                else:
-                    send_hello(peer_ip, my_h)
-                broadcast({"type":"PEERS","data":list(PEERS)}, exclude=peer_ip)
+                broadcast({"type": "PEERS", "data": list(PEERS)}, exclude=peer_ip)
+
+            elif t == "GETCHAIN":
+                # Peer is requesting our full chain
+                peer_ip = addr[0]
+                log.info(f"Sending full chain to {peer_ip}")
+                send_chain_to_peer(peer_ip, data)
 
             elif t == "PEERS":
                 for p in obj.get("data", []):
@@ -116,10 +143,12 @@ def start_p2p(data):
             elif t == "TX":
                 tx = obj.get("data", {})
                 if not verify_tx(tx):
+                    log.warning(f"Rejected TX from {addr[0]}: bad signature")
                     return
                 if tx not in data["pending"] and len(data["pending"]) < MAX_MEMPOOL_TX:
                     data["pending"].append(tx)
                     save_chain(data)
+                    log.info(f"TX accepted from {addr[0]}")
                     broadcast_tx(tx)
 
             elif t == "MEMPOOL":
@@ -129,11 +158,15 @@ def start_p2p(data):
                 save_chain(data)
 
             elif t == "BLOCK":
-                blk = obj.get("data", {})
+                blk  = obj.get("data", {})
                 if not data["chain"]:
                     return
                 last = data["chain"][-1]
-                if valid_new_block(blk, last) and blk["hash"] not in {b["hash"] for b in data["chain"]}:
+
+                if blk.get("hash") in {b["hash"] for b in data["chain"]}:
+                    return  # already have this block
+
+                if valid_new_block(blk, last):
                     with chain_lock:
                         data["chain"].append(blk)
                         data["pending"] = []
@@ -142,19 +175,20 @@ def start_p2p(data):
                         save_chain(data)
                         save_utxo()
                     log.info(f"Block {blk['index']} accepted from {addr[0]}")
-                    broadcast_block(blk)
+                    # Rebroadcast to other peers
+                    broadcast({"type": "BLOCK", "data": blk}, exclude=addr[0])
                 else:
-                    if PEERS:
-                        syncing = True
-                        send_chain_to_peer(addr[0], data)
+                    # Block doesn't fit — maybe we're behind, request full chain
+                    log.warning(f"Block {blk.get('index')} rejected from {addr[0]} — requesting sync")
+                    _send(addr[0], {"type": "GETCHAIN"})
 
             elif t == "CHAIN":
-                remote = obj.get("data", {})
+                remote   = obj.get("data", {})
                 newchain = choose_chain(data["chain"], remote.get("chain", []))
                 if newchain is not data["chain"]:
                     with chain_lock:
-                        data["chain"] = newchain
-                        data["pending"] = []
+                        data["chain"]        = newchain
+                        data["pending"]      = []
                         data["total_supply"] = calculate_total_supply(newchain)
                         rebuild_utxo(data)
                         save_chain(data)
@@ -163,7 +197,7 @@ def start_p2p(data):
                 syncing = False
 
         except Exception as e:
-            log.debug(f"P2P error {addr[0]}: {e}")
+            log.debug(f"P2P error from {addr[0]}: {e}")
         finally:
             conn.close()
 
@@ -172,10 +206,12 @@ def start_p2p(data):
             try:
                 conn, addr = srv.accept()
                 threading.Thread(target=handle, args=(conn, addr), daemon=True).start()
-            except:
+            except Exception:
                 pass
 
     threading.Thread(target=accept_loop, daemon=True).start()
+
+# ---------------- REST API ----------------
 
 _api_data   = None
 _api_wallet = None
@@ -194,50 +230,59 @@ class URNHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         p = self.path.split("?")[0].rstrip("/")
+        d = _api_data
         if p == "/status":
-            d = _api_data
-            self._respond(200, {"height":len(d["chain"])-1,"total_supply":calculate_total_supply(d["chain"])/100000000,"pending_tx":len(d["pending"]),"peers":len(PEERS),"difficulty":get_difficulty(),"utxo_count":len(UTXO)})
+            self._respond(200, {
+                "height":       len(d["chain"]) - 1,
+                "total_supply": calculate_total_supply(d["chain"]) / 100_000_000,
+                "pending_tx":   len(d["pending"]),
+                "peers":        len(PEERS),
+                "difficulty":   get_difficulty(),
+                "utxo_count":   len(UTXO)
+            })
         elif p.startswith("/balance/"):
             addr = p.split("/balance/")[1]
-            self._respond(200, {"address":addr,"balance":get_balance(addr)})
+            self._respond(200, {"address": addr, "balance": get_balance(addr)})
         elif p.startswith("/block/"):
             try:
                 idx = int(p.split("/block/")[1])
-                self._respond(200, _api_data["chain"][idx])
-            except:
-                self._respond(404, {"error":"not found"})
+                self._respond(200, d["chain"][idx])
+            except Exception:
+                self._respond(404, {"error": "not found"})
         elif p == "/mempool":
-            self._respond(200, {"count":len(_api_data["pending"]),"txs":_api_data["pending"]})
+            self._respond(200, {"count": len(d["pending"]), "txs": d["pending"]})
         elif p == "/peers":
-            self._respond(200, {"peers":list(PEERS)})
+            self._respond(200, {"peers": list(PEERS)})
+        elif p == "/chain":
+            self._respond(200, {"length": len(d["chain"]), "chain": d["chain"]})
         else:
-            self._respond(404, {"error":"not found"})
+            self._respond(404, {"error": "not found"})
 
     def do_POST(self):
         p = self.path.rstrip("/")
         if p == "/send":
             try:
                 length = int(self.headers.get("Content-Length", 0))
-                body = json.loads(self.rfile.read(length))
+                body   = json.loads(self.rfile.read(length))
                 from blockchain import create_transaction
-                tx = create_transaction(_api_wallet, body.get("to",""), float(body.get("amount",0)), _api_data)
+                tx = create_transaction(_api_wallet, body.get("to", ""), float(body.get("amount", 0)), _api_data)
                 if tx:
                     broadcast_tx(tx)
-                    self._respond(200, {"status":"ok"})
+                    self._respond(200, {"status": "ok"})
                 else:
-                    self._respond(400, {"error":"failed"})
+                    self._respond(400, {"error": "failed"})
             except Exception as e:
-                self._respond(500, {"error":str(e)})
+                self._respond(500, {"error": str(e)})
         elif p == "/connect":
             try:
                 length = int(self.headers.get("Content-Length", 0))
-                body = json.loads(self.rfile.read(length))
-                connect_peer(body.get("ip",""), _api_data)
-                self._respond(200, {"status":"ok"})
+                body   = json.loads(self.rfile.read(length))
+                connect_peer(body.get("ip", ""), _api_data)
+                self._respond(200, {"status": "ok"})
             except Exception as e:
-                self._respond(500, {"error":str(e)})
+                self._respond(500, {"error": str(e)})
         else:
-            self._respond(404, {"error":"not found"})
+            self._respond(404, {"error": "not found"})
 
 def start_api(data, wallet):
     global _api_data, _api_wallet

@@ -1,3 +1,7 @@
+# ============================
+# URN — blockchain.py
+# ============================
+
 import json, time, hashlib, secrets, threading
 from config import (
     DECIMALS, MAX_SUPPLY, INITIAL_REWARD, HALVING_INTERVAL,
@@ -7,9 +11,12 @@ from config import (
 )
 from utils import sha256, merkle_root, log
 
+# ---------------- STATE ----------------
 UTXO        = {}
 _difficulty = DIFFICULTY
 chain_lock  = threading.Lock()
+
+# ---------------- PERSISTENCE ----------------
 
 def load_chain():
     try:
@@ -18,7 +25,7 @@ def load_chain():
         if not d.get("chain"):
             raise ValueError("empty")
         return d
-    except:
+    except Exception:
         log.warning("Chain file missing - starting fresh")
         d = {"chain": [_genesis()], "pending": [], "total_supply": 0}
         save_chain(d)
@@ -33,24 +40,39 @@ def load_utxo():
     try:
         with open(UTXO_FILE) as f:
             UTXO = json.load(f)
-        log.debug(f"UTXO loaded: {len(UTXO)} entries")
-    except:
+        log.info(f"UTXO loaded: {len(UTXO)} entries")
+    except Exception:
         log.warning("UTXO missing - will rebuild")
         UTXO = {}
 
 def save_utxo():
+    global UTXO
     with open(UTXO_FILE, "w") as f:
         json.dump(UTXO, f)
+    log.debug(f"UTXO saved: {len(UTXO)} entries")
+
+# ---------------- GENESIS ----------------
 
 def _genesis():
-    g = {"index":0,"time":1700000000.0,"tx":[],"merkle":sha256(""),"prev":"0"*64,"nonce":0}
+    g = {"index": 0, "time": 1700000000.0, "tx": [], "merkle": sha256(""), "prev": "0"*64, "nonce": 0}
     g["hash"] = block_hash(g)
     return g
 
+# ---------------- HASHING ----------------
+
 def block_hash(b):
-    raw = json.dumps({"index":b["index"],"time":b["time"],"tx":b["tx"],"merkle":b.get("merkle",""),"prev":b["prev"],"nonce":b["nonce"]}, sort_keys=True)
+    raw = json.dumps({
+        "index":  b["index"],
+        "time":   b["time"],
+        "tx":     b["tx"],
+        "merkle": b.get("merkle", ""),
+        "prev":   b["prev"],
+        "nonce":  b["nonce"]
+    }, sort_keys=True)
     first = hashlib.sha256(raw.encode()).digest()
     return hashlib.sha256(first).hexdigest()
+
+# ---------------- DIFFICULTY ----------------
 
 def get_difficulty():
     return _difficulty
@@ -70,6 +92,8 @@ def adjust_difficulty(data):
     elif actual > expected * 2 and _difficulty > 1:
         _difficulty -= 1
         log.info(f"Difficulty down to {_difficulty}")
+
+# ---------------- VALIDATION ----------------
 
 def validate_chain(chain):
     for i in range(1, len(chain)):
@@ -91,11 +115,26 @@ def valid_new_block(block, last):
 
 def choose_chain(local, remote):
     if not validate_chain(remote):
+        log.warning("Rejected remote chain - invalid")
         return local
     if len(remote) > len(local):
         log.info(f"Switching to longer chain remote={len(remote)}")
         return remote
     return local
+
+# ---------------- UTXO ----------------
+
+def apply_block_utxo(block):
+    """Apply a single block to the UTXO set."""
+    # First remove spent inputs
+    for tx in block["tx"]:
+        if tx["from"] != "COINBASE":
+            for inp in tx.get("inputs", []):
+                UTXO.pop(inp, None)
+    # Then add new outputs
+    for tx in block["tx"]:
+        txid = tx.get("txid") or tx_hash(tx)
+        UTXO[txid] = {"address": tx["to"], "amount": tx["amount"]}
 
 def rebuild_utxo(data):
     global UTXO
@@ -105,15 +144,7 @@ def rebuild_utxo(data):
     save_utxo()
     log.info(f"UTXO rebuilt: {len(UTXO)} entries")
 
-def apply_block_utxo(block):
-    for tx in block["tx"]:
-        if tx["from"] != "COINBASE":
-            for inp in tx.get("inputs", []):
-                UTXO.pop(inp, None)
-    for tx in block["tx"]:
-        txid = tx.get("txid") or tx_hash(tx)
-        UTXO[txid] = {"address": tx["to"], "amount": tx["amount"]}
-    log.debug(f"UTXO after block {block['index']}: {len(UTXO)} entries")
+# ---------------- BALANCE ----------------
 
 def get_balance(addr):
     total = sum(u["amount"] for u in UTXO.values() if u["address"] == addr)
@@ -128,8 +159,16 @@ def pending_spent(addr, data):
 def calculate_total_supply(chain):
     return sum(tx["amount"] for b in chain for tx in b["tx"] if tx["from"] == "COINBASE")
 
+# ---------------- TRANSACTIONS ----------------
+
 def tx_hash(tx):
-    s = json.dumps({"from":tx["from"],"to":tx["to"],"amount":tx["amount"],"fee":tx["fee"],"inputs":tx.get("inputs",[])}, sort_keys=True)
+    s = json.dumps({
+        "from":   tx["from"],
+        "to":     tx["to"],
+        "amount": tx["amount"],
+        "fee":    tx["fee"],
+        "inputs": tx.get("inputs", [])
+    }, sort_keys=True)
     return hashlib.sha256(s.encode()).hexdigest()
 
 def verify_tx(tx):
@@ -138,7 +177,7 @@ def verify_tx(tx):
     try:
         from wallet import verify_sig
         return verify_sig(tx_hash(tx), tx["sig"], tx["pubkey"])
-    except:
+    except Exception:
         return False
 
 def valid_address(a):
@@ -146,7 +185,7 @@ def valid_address(a):
     try:
         int(a, 16)
         return True
-    except:
+    except Exception:
         return False
 
 def create_transaction(wallet, to, amount_urn, data):
@@ -174,7 +213,7 @@ def create_transaction(wallet, to, amount_urn, data):
         collected += utxo["amount"]
         if collected >= amt + FEE:
             break
-    tx_body = {"from":wallet["address"],"to":to,"amount":amt,"fee":FEE,"inputs":inputs}
+    tx_body = {"from": wallet["address"], "to": to, "amount": amt, "fee": FEE, "inputs": inputs}
     from wallet import sign_tx
     sig = sign_tx(tx_hash(tx_body), wallet["private"])
     tx = {**tx_body, "pubkey": wallet["public"], "sig": sig}
@@ -183,60 +222,77 @@ def create_transaction(wallet, to, amount_urn, data):
     log.info(f"TX created: {amt/DECIMALS:.8f} URN to {to[:10]}...")
     return tx
 
+# ---------------- REWARD ----------------
+
 def get_reward(height):
     return max(INITIAL_REWARD >> (height // HALVING_INTERVAL), 0)
 
+# ---------------- MINING ----------------
+
 def mine_block(wallet, data):
     global UTXO
+
     if not data["chain"] or not validate_chain(data["chain"]):
         log.warning("Cannot mine: chain invalid")
         return None
+
+    # Drop bad TXs
     clean = [tx for tx in data["pending"] if verify_tx(tx)]
     dropped = len(data["pending"]) - len(clean)
     if dropped:
         log.warning(f"Dropped {dropped} invalid TX(s)")
     data["pending"] = clean
+
     height  = len(data["chain"])
     reward  = get_reward(height)
     current = calculate_total_supply(data["chain"])
     if current + reward > MAX_SUPPLY:
         reward = 0
-    included = data["pending"][:MAX_BLOCK_TX]
+
+    included   = data["pending"][:MAX_BLOCK_TX]
     total_fees = sum(tx["fee"] for tx in included)
+
     coinbase = {
-        "from": "COINBASE",
-        "to": wallet["address"],
+        "from":   "COINBASE",
+        "to":     wallet["address"],
         "amount": reward + total_fees,
-        "fee": 0,
+        "fee":    0,
         "inputs": [],
-        "txid": sha256("COINBASE" + wallet["address"] + str(reward) + str(time.time()) + secrets.token_hex(8))
+        "txid":   sha256("COINBASE" + wallet["address"] + str(reward) + str(time.time()) + secrets.token_hex(8))
     }
+
     txs = included + [coinbase]
     block = {
-        "index": height,
-        "time": time.time(),
-        "tx": txs,
+        "index":  height,
+        "time":   time.time(),
+        "tx":     txs,
         "merkle": merkle_root(txs),
-        "prev": data["chain"][-1]["hash"],
-        "nonce": 0
+        "prev":   data["chain"][-1]["hash"],
+        "nonce":  0
     }
+
     log.info(f"Mining block {height} difficulty={_difficulty}...")
-    start = time.time()
+    start  = time.time()
     target = "0" * _difficulty
+
     while True:
         h = block_hash(block)
         if h.startswith(target):
             block["hash"] = h
             break
         block["nonce"] += 1
+
     elapsed = round(time.time() - start, 2)
     log.info(f"Block {height} mined in {elapsed}s nonce={block['nonce']} reward={reward/DECIMALS:.8f} URN")
+
     with chain_lock:
         data["chain"].append(block)
-        data["pending"] = [t for t in data["pending"] if t not in included]
+        data["pending"]      = [t for t in data["pending"] if t not in included]
         data["total_supply"] = calculate_total_supply(data["chain"])
-        apply_block_utxo(block)
+        apply_block_utxo(block)   # update UTXO
         save_chain(data)
-        save_utxo()
+        save_utxo()               # save UTXO immediately
         adjust_difficulty(data)
+
+    log.info(f"UTXO after mining: {len(UTXO)} entries")
     return block

@@ -284,3 +284,49 @@
 [2026-03-22 18:50:18] DEBUG  UTXO after block 5: 5 entries
 [2026-03-22 18:50:18] INFO  UTXO rebuilt: 5 entries
 [2026-03-22 18:50:18] INFO  Chain synced from 10.22.84.173 height=6
+[2026-03-22 19:36:47] INFO  Loaded 7 peers
+[2026-03-22 19:36:47] DEBUG  UTXO loaded: 5 entries
+[2026-03-22 19:36:47] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 19:36:47] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 19:36:47] DEBUG  UTXO after block 2: 2 entries
+[2026-03-22 19:36:47] DEBUG  UTXO after block 3: 3 entries
+[2026-03-22 19:36:47] DEBUG  UTXO after block 4: 4 entries
+[2026-03-22 19:36:47] DEBUG  UTXO after block 5: 5 entries
+[2026-03-22 19:36:47] INFO  UTXO rebuilt: 5 entries
+[2026-03-22 19:36:47] INFO  P2P listening on port 5000
+[2026-03-22 19:36:47] INFO  REST API on http://localhost:8080
+[2026-03-22 19:36:47] INFO  Connected to peer: bore.pub:41804
+[2026-03-22 19:36:53] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 19:36:53] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 19:36:53] DEBUG  UTXO after block 2: 2 entries
+[2026-03-22 19:36:53] DEBUG  UTXO after block 3: 3 entries
+[2026-03-22 19:36:53] DEBUG  UTXO after block 4: 4 entries
+[2026-03-22 19:36:53] DEBUG  UTXO after block 5: 5 entries
+[2026-03-22 19:36:53] INFO  UTXO rebuilt: 5 entries
+[2026-03-22 19:42:10] WARNING  Chain file missing - starting fresh
+[2026-03-22 19:42:10] INFO  Loaded 7 peers
+[2026-03-22 19:42:10] WARNING  UTXO missing - will rebuild
+[2026-03-22 19:42:10] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 19:42:10] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 19:42:10] INFO  P2P listening on port 5000
+[2026-03-22 19:42:10] INFO  REST API on http://localhost:8080
+[2026-03-22 19:42:10] INFO  Connected to peer: bore.pub:41804
+[2026-03-22 19:42:16] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 19:42:16] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 19:44:14] INFO  Mining block 1 difficulty=5...
+[2026-03-22 19:44:19] INFO  Block 1 mined in 5.14s nonce=252205 reward=32.00000000 URN
+[2026-03-22 19:44:19] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 19:54:40] WARNING  Chain file missing - starting fresh
+[2026-03-22 19:54:40] INFO  Loaded 7 peers
+[2026-03-22 19:54:40] WARNING  UTXO missing - will rebuild
+[2026-03-22 19:54:40] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 19:54:40] INFO  P2P listening on port 5000
+[2026-03-22 19:54:40] INFO  REST API on http://localhost:8080
+[2026-03-22 19:57:00] INFO  Loaded 1 peers
+[2026-03-22 19:57:00] DEBUG  UTXO loaded: 0 entries
+[2026-03-22 19:57:00] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 19:57:00] INFO  P2P listening on port 5000
+[2026-03-22 19:57:00] INFO  REST API on http://localhost:8080
+[2026-03-22 19:57:46] INFO  Connected to peer: 10
+[2026-03-22 19:58:06] INFO  Mining block 1 difficulty=5...
+[2026-03-22 19:58:33] INFO  Block 1 mined in 27.04s nonce=1300218 reward=32.00000000 URN

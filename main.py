@@ -20,7 +20,7 @@ _automine_pause   = 5
 def _automine_loop(wallet, data):
     global _automine_running
     log.info("Auto-miner started")
-    print("\n  Auto-miner started - type 'am stop' to stop\n")
+    print("\n  Auto-miner started - type automine stop to stop\n")
     while _automine_running:
         try:
             block = mine_block(wallet, data)
@@ -58,10 +58,10 @@ Commands:
   bal                 - show balance
   send                - send URN
   mine                - mine one block
-  am start            - start auto-mining
-  am stop             - stop auto-mining
-  ams                 - check status
-  amp <s>             - set pause seconds
+  automine start      - start auto-mining
+  automine stop       - stop auto-mining
+  automine status     - check status
+  automine pause <s>  - set pause seconds
   history             - block history
   mytx                - your transactions
   pending             - mempool
@@ -93,15 +93,6 @@ def main():
         connect_peer(ip, data)
     for ip in BOOTSTRAP_NODES:
         connect_peer(ip, data)
-
-    # Sync on startup
-    if PEERS or BOOTSTRAP_NODES:
-        print("  Syncing chain from peers...")
-        import time
-        time.sleep(5)  # wait for chain to arrive
-        rebuild_utxo(data)
-        save_utxo()
-        print(f"  Sync complete! Height: {len(data['chain'])-1}")
     print(f"  Address : {wallet['address']}")
     print(f"  Balance : {get_balance(wallet['address']):.8f} URN")
     print(f"  Height  : {len(data['chain']) - 1}")
@@ -150,21 +141,20 @@ def main():
                     broadcast_chain(data)
                     print(f"  Block {block['index']} mined!")
                     print(f"  Balance: {get_balance(wallet['address']):.8f} URN")
-        elif cmd == "am start":
+        elif cmd == "automine start":
             start_automine(wallet, data)
-        elif cmd == "am stop":
+        elif cmd == "automine stop":
             stop_automine()
-        elif cmd == "ams":
+        elif cmd == "automine status":
             state = "RUNNING" if _automine_running else "STOPPED"
             print(f"  Auto-miner: {state} | pause={_automine_pause}s")
-        elif cmd.startswith("amp "):
+        elif cmd.startswith("automine pause "):
             try:
-                parts = cmd.strip().split(" ")
-                secs = int(parts[-1])
+                secs = int(cmd.split("automine pause ")[1])
                 _automine_pause = max(0, secs)
                 print(f"  Pause set to {_automine_pause}s")
             except:
-                print("  Usage: amp <seconds>")
+                print("  Usage: automine pause <seconds>")
         elif cmd == "history":
             for b in data["chain"][1:]:
                 print(f"  Block {b['index']} | txs={len(b['tx'])}")
@@ -202,19 +192,10 @@ def main():
             print(f"  UTXO      : {len(UTXO)}")
             print(f"  Automine  : {state} pause={_automine_pause}s")
         elif cmd == "peers":
-            # Show from file + memory
-            known = set(PEERS)
-            try:
-                import json
-                with open("peers.json") as f:
-                    known.update(json.load(f))
-            except:
-                pass
-            if not known:
+            if not PEERS:
                 print("  No peers")
             else:
-                for p in known:
-                    print(f"  • {p}")
+                [print(f"  {p}") for p in PEERS]
         elif cmd == "connect":
             ip = input("  Peer IP: ").strip()
             connect_peer(ip, data)
