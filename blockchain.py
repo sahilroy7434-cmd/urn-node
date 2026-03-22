@@ -100,26 +100,20 @@ def choose_chain(local, remote):
 def rebuild_utxo(data):
     global UTXO
     UTXO = {}
-    chain_height = len(data["chain"])
-    for block_idx, block in enumerate(data["chain"]):
-        for tx in block["tx"]:
-            txid = tx.get("txid") or tx_hash(tx)
-            if tx["from"] != "COINBASE":
-                for inp in tx.get("inputs", []):
-                    UTXO.pop(inp, None)
-            if tx["from"] == "COINBASE" and COINBASE_MATURITY > 0:
-                if (chain_height - block_idx) < COINBASE_MATURITY:
-                    continue
-            UTXO[txid] = {"address": tx["to"], "amount": tx["amount"]}
+    for block in data["chain"]:
+        apply_block_utxo(block)
+    save_utxo()
     log.info(f"UTXO rebuilt: {len(UTXO)} entries")
 
 def apply_block_utxo(block):
     for tx in block["tx"]:
-        txid = tx.get("txid") or tx_hash(tx)
         if tx["from"] != "COINBASE":
             for inp in tx.get("inputs", []):
                 UTXO.pop(inp, None)
+    for tx in block["tx"]:
+        txid = tx.get("txid") or tx_hash(tx)
         UTXO[txid] = {"address": tx["to"], "amount": tx["amount"]}
+    log.debug(f"UTXO after block {block['index']}: {len(UTXO)} entries")
 
 def get_balance(addr):
     total = sum(u["amount"] for u in UTXO.values() if u["address"] == addr)

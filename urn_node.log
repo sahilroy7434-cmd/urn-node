@@ -220,3 +220,67 @@
 [2026-03-22 03:33:38] INFO  Connected to peer: bore.pub:41804
 [2026-03-22 03:33:44] INFO  Mining block 5 difficulty=5...
 [2026-03-22 03:35:26] INFO  Block 5 mined in 101.56s nonce=4915150 reward=32.00000000 URN
+[2026-03-22 18:12:38] WARNING  Chain file missing - starting fresh
+[2026-03-22 18:12:38] INFO  Loaded 7 peers
+[2026-03-22 18:12:38] WARNING  UTXO missing - will rebuild
+[2026-03-22 18:12:38] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 18:12:38] INFO  P2P listening on port 5000
+[2026-03-22 18:12:38] INFO  REST API on http://localhost:8080
+[2026-03-22 18:12:38] INFO  Connected to peer: bore.pub:41804
+[2026-03-22 18:12:44] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 18:13:00] INFO  Mining block 1 difficulty=5...
+[2026-03-22 18:13:10] INFO  Block 1 mined in 10.19s nonce=373443 reward=32.00000000 URN
+[2026-03-22 18:14:05] INFO  Mining block 2 difficulty=5...
+[2026-03-22 18:16:07] INFO  Block 2 mined in 121.71s nonce=2226531 reward=32.00000000 URN
+[2026-03-22 18:16:18] INFO  Auto-miner started
+[2026-03-22 18:16:18] INFO  Mining block 3 difficulty=5...
+[2026-03-22 18:16:31] INFO  Block 3 mined in 12.7s nonce=464718 reward=32.00000000 URN
+[2026-03-22 18:16:47] INFO  Mining block 4 difficulty=5...
+[2026-03-22 18:17:43] INFO  Block 4 mined in 56.2s nonce=1271539 reward=32.00000000 URN
+[2026-03-22 18:23:31] INFO  Mining block 5 difficulty=5...
+[2026-03-22 18:24:18] INFO  Block 5 accepted from 10.22.84.173
+[2026-03-22 18:24:21] INFO  Block 5 mined in 50.01s nonce=1823272 reward=32.00000000 URN
+[2026-03-22 18:36:38] INFO  Loaded 7 peers
+[2026-03-22 18:36:38] DEBUG  UTXO loaded: 6 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 2: 2 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 3: 3 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 4: 4 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 5: 5 entries
+[2026-03-22 18:36:38] DEBUG  UTXO after block 5: 6 entries
+[2026-03-22 18:36:38] INFO  UTXO rebuilt: 6 entries
+[2026-03-22 18:36:38] INFO  P2P listening on port 5000
+[2026-03-22 18:36:38] INFO  REST API on http://localhost:8080
+[2026-03-22 18:36:38] INFO  Connected to peer: bore.pub:41804
+[2026-03-22 18:36:44] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 18:36:44] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 18:36:44] DEBUG  UTXO after block 2: 2 entries
+[2026-03-22 18:36:44] DEBUG  UTXO after block 3: 3 entries
+[2026-03-22 18:36:44] DEBUG  UTXO after block 4: 4 entries
+[2026-03-22 18:36:44] DEBUG  UTXO after block 5: 5 entries
+[2026-03-22 18:36:44] DEBUG  UTXO after block 5: 6 entries
+[2026-03-22 18:36:44] INFO  UTXO rebuilt: 6 entries
+[2026-03-22 18:36:49] WARNING  Cannot mine: chain invalid
+[2026-03-22 18:49:03] WARNING  Chain file missing - starting fresh
+[2026-03-22 18:49:03] INFO  Loaded 7 peers
+[2026-03-22 18:49:03] WARNING  UTXO missing - will rebuild
+[2026-03-22 18:49:03] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 18:49:03] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 18:49:03] INFO  P2P listening on port 5000
+[2026-03-22 18:49:03] INFO  REST API on http://localhost:8080
+[2026-03-22 18:49:03] INFO  Connected to peer: bore.pub:41804
+[2026-03-22 18:49:08] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 18:49:08] INFO  UTXO rebuilt: 0 entries
+[2026-03-22 18:49:25] INFO  Mining block 1 difficulty=5...
+[2026-03-22 18:50:13] INFO  Block 1 mined in 48.53s nonce=2175927 reward=32.00000000 URN
+[2026-03-22 18:50:13] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 18:50:18] INFO  Switching to longer chain remote=6
+[2026-03-22 18:50:18] DEBUG  UTXO after block 0: 0 entries
+[2026-03-22 18:50:18] DEBUG  UTXO after block 1: 1 entries
+[2026-03-22 18:50:18] DEBUG  UTXO after block 2: 2 entries
+[2026-03-22 18:50:18] DEBUG  UTXO after block 3: 3 entries
+[2026-03-22 18:50:18] DEBUG  UTXO after block 4: 4 entries
+[2026-03-22 18:50:18] DEBUG  UTXO after block 5: 5 entries
+[2026-03-22 18:50:18] INFO  UTXO rebuilt: 5 entries
+[2026-03-22 18:50:18] INFO  Chain synced from 10.22.84.173 height=6
